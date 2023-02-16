@@ -26,4 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     });
     HasilQC.belongsTo(models.Users, { foreignKey: "id_adminqc", as: "qcBy" });
   };
+
+  return HasilQC;
 };

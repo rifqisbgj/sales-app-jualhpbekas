@@ -38,4 +38,6 @@ module.exports = (sequelize, DataTypes) => {
       as: "createByAdmin",
     });
   };
+
+  return Users;
 };

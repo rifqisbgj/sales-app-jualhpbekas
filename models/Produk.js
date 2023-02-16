@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM,
         allowNull: false,
         defaultValue: "BQC",
-        values: ["BQC", "PQC", "SQC", "SJ"],
+        values: ["BQC", "PQC", "SQC", "SJ", "D"],
       },
       createdAt: {
         field: "created_at",
