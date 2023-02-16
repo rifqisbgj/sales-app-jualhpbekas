@@ -4,7 +4,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("image_produk", {
-      id: { type: Sequelize.INTEGER, primaryKey: true, allowNull: false },
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+      },
       image: { type: Sequelize.STRING, allowNull: false },
       id_produk: { type: Sequelize.UUID, allowNull: false },
       created_at: { type: Sequelize.DATE, allowNull: false },
