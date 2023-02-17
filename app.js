@@ -6,7 +6,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
-var merekRouter = require("./routes/merek");
+var brandRouter = require("./routes/brand");
 
 var app = express();
 
@@ -17,6 +17,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/merek", merekRouter);
+app.use("/brand", brandRouter);
 
 module.exports = app;
