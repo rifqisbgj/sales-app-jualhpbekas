@@ -7,5 +7,6 @@ router.post("/store", brandHandler.createBrand);
 router.put("/update/:id", brandHandler.updateBrand);
 router.get("/", brandHandler.getAllBrand);
 router.get("/:id", brandHandler.detailBrand);
+router.delete("/delete", brandHandler.deleteBrand);
 
 module.exports = router;
