@@ -11,6 +11,7 @@ router.get("/", varianHandler.getAllVarians);
 router.get("/detail/:id", varianHandler.detailVarian);
 // detail for edit varian
 router.get("/edit/:id", varianHandler.getVarian);
-// router.delete("/delete", brandHandler.deleteBrand);
+// delete varian
+router.delete("/delete", varianHandler.deleteVarian);
 
 module.exports = router;
