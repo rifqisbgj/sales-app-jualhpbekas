@@ -7,7 +7,8 @@ router.post("/store", varianHandler.createVarian);
 router.put("/update/:id", varianHandler.updateVarian);
 // get all varian with brand name
 router.get("/", varianHandler.getAllVarians);
-// router.get("/:id", brandHandler.detailBrand);
+// detail varian with product list
+router.get("/:id", varianHandler.detailVarian);
 // router.delete("/delete", brandHandler.deleteBrand);
 
 module.exports = router;
