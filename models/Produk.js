@@ -16,7 +16,31 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM,
         allowNull: false,
         defaultValue: "BQC",
-        values: ["BQC", "PQC", "SQC", "SJ", "D"],
+        /* STATUS:
+        Belum Quality Control (BQC)
+        Proses Quality Control (PQC)
+        Selesai Quality Control (SQC)
+        Siap Jual (SJ)
+        Denied (D)
+        Terjual (T)
+         */
+        values: ["BQC", "PQC", "SQC", "SJ", "D", "T"],
+      },
+      deskripsi: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      ram: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      storage: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      warna: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       createdAt: {
         field: "created_at",

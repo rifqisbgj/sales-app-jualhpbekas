@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Varian.associate = (models) => {
     Varian.belongsTo(models.Merek, { foreignKey: "id_merk", as: "merk" });
+    Varian.hasMany(models.Produk, { foreignKey: "id_varian", as: "produk" });
   };
 
   return Varian;
