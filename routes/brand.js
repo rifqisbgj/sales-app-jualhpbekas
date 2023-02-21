@@ -9,9 +9,9 @@ router.put("/update/:id", brandHandler.updateBrand);
 // get list brand
 router.get("/", brandHandler.getAllBrand);
 // get detail brand with varians
-router.get("/detail-varians/:id", brandHandler.detailBrand);
-// get brand detail without varians
-router.get("/detail/:id", brandHandler.getBrand);
+router.get("/detail/:id", brandHandler.detailBrand);
+// get brand detail without varians for edit brand
+router.get("/edit/:id", brandHandler.getBrand);
 // delete brand
 router.delete("/delete", brandHandler.deleteBrand);
 

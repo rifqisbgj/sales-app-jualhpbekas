@@ -8,7 +8,9 @@ router.put("/update/:id", varianHandler.updateVarian);
 // get all varian with brand name
 router.get("/", varianHandler.getAllVarians);
 // detail varian with product list
-router.get("/:id", varianHandler.detailVarian);
+router.get("/detail/:id", varianHandler.detailVarian);
+// detail for edit varian
+router.get("/edit/:id", varianHandler.getVarian);
 // router.delete("/delete", brandHandler.deleteBrand);
 
 module.exports = router;
