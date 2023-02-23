@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       imei: { type: DataTypes.STRING(15), allowNull: false },
       namaproduk: { type: DataTypes.STRING, allowNull: false },
       slug: { type: DataTypes.STRING, allowNull: false },
-      harga: { type: DataTypes.INTEGER, allowNull: true },
+      harga: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 0 },
       id_varian: { type: DataTypes.INTEGER, allowNull: false },
       statusproduk: {
         type: DataTypes.ENUM,
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       deskripsi: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       ram: {
         type: DataTypes.STRING,
