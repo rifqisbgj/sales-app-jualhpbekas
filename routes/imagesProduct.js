@@ -17,14 +17,28 @@ const storage = multer.diskStorage({
   },
 });
 // initialitation storage multer
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: { fileSize: 1000000 },
+  fileFilter(req, file, cb) {
+    // upload only png and jpg
+    if (!file.originalname.match(/\.(png|jpg)$/)) {
+      return cb(new Error("Please upload a Image"));
+    }
+    cb(null, true);
+  },
+});
 
 // Store new image product
 router.post(
   "/store",
   // middleware for get maximum five image product
-  upload.array("product-image", 5),
-  imgProductHandler.createProductImage
+  upload.array("product-image", 1),
+  imgProductHandler.createProductImage,
+  (error, req, res, next) => {
+    // send error image input
+    return res.status(400).send({ error: error.message });
+  }
 );
 
 module.exports = router;
