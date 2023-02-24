@@ -38,8 +38,7 @@ module.exports = async (req, res) => {
     });
   }
 
-  // Check produk exist
-  // sequelize.fn untuk merubah value dari kolom yang ada di db
+  // Check product imei exist
   const isImeiExist = await Produk.findOne({
     where: { imei: req.body.imei },
   });

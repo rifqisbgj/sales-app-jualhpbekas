@@ -5,7 +5,7 @@ const productHandler = require("./handler/product");
 // Store new product
 router.post("/store", productHandler.createProduct);
 // update a product
-router.put("/update/:id", productHandler.updateProduct);
+router.put("/update/:slug", productHandler.updateProduct);
 // get list brand
 // router.get("/", brandHandler.getAllBrand);
 // get detail brand with varians
