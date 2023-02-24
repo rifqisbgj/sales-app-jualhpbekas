@@ -9,6 +9,7 @@ var indexRouter = require("./routes/index");
 var brandRouter = require("./routes/brand");
 var varianRouter = require("./routes/varian");
 var productRouter = require("./routes/product");
+var imagesProductRouter = require("./routes/imagesProduct");
 
 var app = express();
 
@@ -22,5 +23,6 @@ app.use("/", indexRouter);
 app.use("/brand", brandRouter);
 app.use("/varian", varianRouter);
 app.use("/product", productRouter);
+app.use("/product-image", imagesProductRouter);
 
 module.exports = app;
