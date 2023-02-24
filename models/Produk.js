@@ -57,7 +57,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "id_varian",
       as: "varianProduk",
     });
-    Produk.hasMany(models.GambarProduk, { as: "gambarProduk" });
+    Produk.hasMany(models.GambarProduk, {
+      foreignKey: "id_produk",
+      as: "gambarProduk",
+    });
   };
 
   return Produk;

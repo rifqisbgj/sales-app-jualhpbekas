@@ -6,13 +6,11 @@ const productHandler = require("./handler/product");
 router.post("/store", productHandler.createProduct);
 // update a product
 router.put("/update/:slug", productHandler.updateProduct);
-// get list brand
-// router.get("/", brandHandler.getAllBrand);
-// get detail brand with varians
-// router.get("/detail/:id", brandHandler.detailBrand);
-// get brand detail without varians for edit brand
-// router.get("/edit/:id", brandHandler.getBrand);
-// delete brand
-// router.delete("/delete", brandHandler.deleteBrand);
+// get list product
+// router.get("/", productHandler.getAllProduct);
+// get detail product
+router.get("/detail/:slug", productHandler.detailProduct);
+// delete product
+// router.delete("/delete", productHandler.deleteProduct);
 
 module.exports = router;
