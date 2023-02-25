@@ -3,8 +3,6 @@ const Validator = require("fastest-validator");
 // Custom error messages for validation
 const v = new Validator({
   messages: {
-    string: "Silahkan cek kembali bidang {field} ",
-    stringEmpty: "Nama varian tidak boleh kosong",
     // error handling uuid type
     uuid: "Kesalahan format pada '{field}'",
     // error handling uuidVersion validation
@@ -17,7 +15,21 @@ module.exports = async (req, res) => {
   const schema = {
     idProduk: "uuid|version:1",
   };
+
   const validate = v.validate(req.body, schema);
+
+  //   if file empty or validation error
+  if (!req.files.length || validate.length) {
+    const errMsgValidation = [];
+    // if file empty, push message
+    !req.files.length
+      ? errMsgValidation.push({ type: "file", messsage: "File tidak tersedia" })
+      : "";
+    // if validation not true, push message
+    validate.length ? errMsgValidation.push(validate) : "";
+    return res.status(400).json({ status: "error", message: errMsgValidation });
+  }
+
   //   check product valid
   const isProduk = await Produk.findByPk(req.body.idProduk);
   //   if product doesn't valid
@@ -26,12 +38,7 @@ module.exports = async (req, res) => {
       .status(404)
       .send({ status: "error", message: "produk tidak ditemukan" });
   }
-  //   if no one file or have validation error
-  if (!req.files || validate.length) {
-    return res
-      .status(400)
-      .json({ status: "error", message: "input not valid" });
-  }
+
   //   store data input
   let dataImage = [];
   //   store to db
