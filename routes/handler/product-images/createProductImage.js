@@ -1,5 +1,7 @@
 const { GambarProduk, Produk } = require("../../../models");
 const Validator = require("fastest-validator");
+const deleteFile = require("../../../helper/deleteFile");
+
 // Custom error messages for validation
 const v = new Validator({
   messages: {
@@ -19,8 +21,8 @@ module.exports = async (req, res) => {
   const validate = v.validate(req.body, schema);
 
   //   if file empty or validation error
+  const errMsgValidation = [];
   if (!req.files.length || validate.length) {
-    const errMsgValidation = [];
     // if file empty, push message
     !req.files.length
       ? errMsgValidation.push({ type: "file", messsage: "File tidak tersedia" })
@@ -32,6 +34,12 @@ module.exports = async (req, res) => {
 
   //   check product valid
   const isProduk = await Produk.findByPk(req.body.idProduk);
+  // if product doesn't exist or have errValidation, delete image file
+  if (!isProduk || errMsgValidation.length) {
+    req.files.forEach((img) => {
+      deleteFile(`./public/product-image/${img.filename}`);
+    });
+  }
   //   if product doesn't valid
   if (!isProduk) {
     return res

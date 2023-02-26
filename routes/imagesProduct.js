@@ -27,4 +27,7 @@ router.put(
   }
 );
 
+// delete an image
+router.delete("/delete", imgProductHandler.deleteImage);
+
 module.exports = router;
