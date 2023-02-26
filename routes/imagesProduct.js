@@ -15,4 +15,16 @@ router.post(
   }
 );
 
+// Update image product
+router.put(
+  "/update",
+  // middleware for upload single image product
+  upload.single("product-image"),
+  imgProductHandler.updateImage,
+  (error, req, res, next) => {
+    // send error image input
+    return res.status(400).send({ error: error.message });
+  }
+);
+
 module.exports = router;
