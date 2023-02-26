@@ -3,7 +3,7 @@ const fs = require("fs");
 const deleteFile = require("../../../helper/deleteFile");
 
 module.exports = async (req, res) => {
-  const imgprdk = await GambarProduk.findByPk(req.body.idImgProduct);
+  const imgprdk = await GambarProduk.findByPk(parseInt(req.body.idImgProduct));
 
   // check image product exist
   if (!imgprdk) {

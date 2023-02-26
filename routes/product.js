@@ -7,7 +7,7 @@ router.post("/store", productHandler.createProduct);
 // update a product
 router.put("/update/:slug", productHandler.updateProduct);
 // get list product
-// router.get("/", productHandler.getAllProduct);
+router.get("/", productHandler.getAllProduct);
 // get detail product
 router.get("/detail/:slug", productHandler.detailProduct);
 // delete product
