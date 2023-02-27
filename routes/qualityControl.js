@@ -11,6 +11,6 @@ router.get("/", qcHandler.getAllResult);
 // // get detail qc result
 router.get("/detail/:id", qcHandler.detailResult);
 // // delete qc result
-// router.delete("/delete", qcHandler.);
+router.delete("/delete", qcHandler.deleteResult);
 
 module.exports = router;

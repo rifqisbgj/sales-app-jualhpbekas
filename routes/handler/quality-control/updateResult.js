@@ -1,5 +1,7 @@
 const { HasilQC, Produk, Users } = require("../../../models");
 const Validator = require("fastest-validator");
+const uuid = require("uuid");
+
 // Custom error messages for validation
 const v = new Validator({
   messages: {
@@ -13,6 +15,12 @@ const v = new Validator({
 });
 
 module.exports = async (req, res) => {
+  if (!uuid.validate(req.params.id)) {
+    return res
+      .status(400)
+      .json({ status: "error", message: "Invalid quality control identity" });
+  }
+
   const schema = {
     layar: "boolean",
     batre: "boolean",
