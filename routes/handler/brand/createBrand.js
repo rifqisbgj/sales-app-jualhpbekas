@@ -17,10 +17,7 @@ module.exports = async (req, res) => {
 
   // jika terdapat error pada validasi
   if (validate.length) {
-    return res.status(400).json({
-      status: "error",
-      message: validate,
-    });
+    return res.status(400).json({ status: "error", message: validate });
   }
 
   // ambil data dari inputan (req.body) dan disimpan pada kolom namamerek

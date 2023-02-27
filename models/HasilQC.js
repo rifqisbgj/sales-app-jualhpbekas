@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     "HasilQC",
     {
       id: { type: DataTypes.UUID, primaryKey: true, allowNull: false },
+      kodeQC: { type: DataTypes.STRING, allowNull: false, unique: true },
       layar: { type: DataTypes.BOOLEAN, allowNull: false },
       batre: { type: DataTypes.BOOLEAN, allowNull: false },
       sinyal: { type: DataTypes.BOOLEAN, allowNull: false },

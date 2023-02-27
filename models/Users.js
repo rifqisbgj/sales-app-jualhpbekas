@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
+      email: { type: DataTypes.STRING, allowNull: false, unique: true },
       nama: { type: DataTypes.STRING, allowNull: false },
       password: { type: DataTypes.STRING, allowNull: false },
       avatar: { type: DataTypes.STRING, allowNull: false },
@@ -16,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         values: ["super", "admin"],
         allowNull: false,
       },
-      createdBy: {
+      created_by: {
         type: DataTypes.UUID,
         allowNull: false,
       },
@@ -35,9 +36,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "id_adminqc",
       as: "produkQCByAdmin",
     });
-    Users.hasMany(models.Users, { foreignKey: "createdBy", as: "createAdmin" });
+    Users.hasMany(models.Users, {
+      foreignKey: "created_by",
+      as: "createAdmin",
+    });
     Users.belongsTo(models.Users, {
-      foreignKey: "createdBy",
+      foreignKey: "created_by",
       as: "createByAdmin",
     });
   };

@@ -5,6 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("hasilqc", {
       id: { type: Sequelize.UUID, primaryKey: true, allowNull: false },
+      kodeQC: { type: Sequelize.STRING(25), allowNull: false },
       layar: { type: Sequelize.BOOLEAN, allowNull: false },
       batre: { type: Sequelize.BOOLEAN, allowNull: false },
       sinyal: { type: Sequelize.BOOLEAN, allowNull: false },
@@ -36,6 +37,11 @@ module.exports = {
         table: "user",
         field: "id",
       },
+    });
+    await queryInterface.addConstraint("hasilqc", {
+      type: "unique",
+      fields: ["kodeQC"],
+      name: "UNIQUE_QUALITY_CONTROL_CODE",
     });
   },
 

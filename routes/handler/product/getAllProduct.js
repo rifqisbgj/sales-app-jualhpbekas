@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Produk } = require("../../../models");
+const { Produk, GambarProduk } = require("../../../models");
 
 module.exports = async (req, res) => {
   const last_create = Date.parse(req.query.lastCreate) || Date.parse(0);
@@ -14,6 +14,7 @@ module.exports = async (req, res) => {
         [Op.or]: [{ namaproduk: { [Op.like]: "%" + search + "%" } }],
       },
       limit: limit,
+      include: [{ model: GambarProduk, as: "gambarProduk", limit: 1 }],
       order: [["createdAt", "DESC"]],
     });
     result = produk;
@@ -27,6 +28,7 @@ module.exports = async (req, res) => {
         [Op.or]: [{ namaproduk: { [Op.like]: "%" + search + "%" } }],
       },
       limit: limit,
+      include: [{ model: GambarProduk, as: "gambarProduk", limit: 1 }],
       order: [["createdAt", "DESC"]],
     });
     result = produk;
