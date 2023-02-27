@@ -11,6 +11,6 @@ router.get("/", productHandler.getAllProduct);
 // get detail product
 router.get("/detail/:slug", productHandler.detailProduct);
 // delete product
-// router.delete("/delete", productHandler.deleteProduct);
+router.delete("/delete", productHandler.deleteProduct);
 
 module.exports = router;

@@ -31,8 +31,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Users.associate = (models) => {
-    Users.hasMany(models.HasilQC, { as: "produkQCByAdmin" });
-    Users.hasMany(models.Users, { as: "createAdmin" });
+    Users.hasMany(models.HasilQC, {
+      foreignKey: "id_adminqc",
+      as: "produkQCByAdmin",
+    });
+    Users.hasMany(models.Users, { foreignKey: "createdBy", as: "createAdmin" });
     Users.belongsTo(models.Users, {
       foreignKey: "createdBy",
       as: "createByAdmin",

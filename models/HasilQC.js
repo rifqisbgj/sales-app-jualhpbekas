@@ -13,8 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       id_produk: { type: DataTypes.UUID, allowNull: false },
       id_adminqc: { type: DataTypes.UUID, allowNull: false },
-      created_at: { type: DataTypes.DATE, allowNull: false },
-      updated_at: { type: DataTypes.DATE, allowNull: true },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        field: "created_at",
+      },
+      updatedAt: { type: DataTypes.DATE, allowNull: true, field: "updated_at" },
     },
     { tableName: "hasilqc" }
   );

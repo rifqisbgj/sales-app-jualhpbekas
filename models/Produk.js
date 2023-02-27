@@ -53,6 +53,10 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Produk.associate = (models) => {
+    Produk.hasOne(models.HasilQC, {
+      foreignKey: "id_produk",
+      as: "qcProduct",
+    });
     Produk.belongsTo(models.Varian, {
       foreignKey: "id_varian",
       as: "varianProduk",
