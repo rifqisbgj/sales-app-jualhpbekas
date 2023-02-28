@@ -11,6 +11,7 @@ var varianRouter = require("./routes/varian");
 var productRouter = require("./routes/product");
 var imagesProductRouter = require("./routes/imagesProduct");
 var qcRouter = require("./routes/qualityControl");
+var usersRouter = require("./routes/users");
 
 var app = express();
 
@@ -26,5 +27,6 @@ app.use("/varian", varianRouter);
 app.use("/product", productRouter);
 app.use("/product-image", imagesProductRouter);
 app.use("/qc", qcRouter);
+app.use("/users", usersRouter);
 
 module.exports = app;

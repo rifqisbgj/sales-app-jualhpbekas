@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       email: { type: DataTypes.STRING, allowNull: false, unique: true },
       nama: { type: DataTypes.STRING, allowNull: false },
       password: { type: DataTypes.STRING, allowNull: false },
-      avatar: { type: DataTypes.STRING, allowNull: false },
+      avatar: { type: DataTypes.STRING },
       role: {
         type: DataTypes.ENUM,
         defaultValue: "admin",
@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       created_by: {
         type: DataTypes.UUID,
         allowNull: false,
+      },
+      refresh_token: {
+        type: DataTypes.TEXT,
       },
       createdAt: {
         field: "created_at",
