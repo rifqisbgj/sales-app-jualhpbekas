@@ -3,9 +3,14 @@ const router = express.Router();
 const imgProductHandler = require("./handler/product-images");
 const { upload } = require("../middleware/storeImageProduct");
 
+const verifyLogin = require("../middleware/verifyUser");
+const access = require("../middleware/permission");
+
 // Store new image product
 router.post(
   "/store",
+  verifyLogin,
+  access("super", "adminSale"),
   // middleware for upload max five image product
   upload.array("product-image", 5),
   imgProductHandler.createProductImage,
@@ -18,6 +23,8 @@ router.post(
 // Update image product
 router.put(
   "/update",
+  verifyLogin,
+  access("super", "adminSale"),
   // middleware for upload single image product
   upload.single("product-image"),
   imgProductHandler.updateImage,
@@ -28,6 +35,11 @@ router.put(
 );
 
 // delete an image
-router.delete("/delete", imgProductHandler.deleteImage);
+router.delete(
+  "/delete",
+  verifyLogin,
+  access("super", "adminSale"),
+  imgProductHandler.deleteImage
+);
 
 module.exports = router;

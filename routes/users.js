@@ -10,14 +10,31 @@ router.post("/store", verifyLogin, access("super"), usersHandler.register);
 // admin login
 router.post("/login", usersHandler.login);
 // admin logout
-router.post("/logout", usersHandler.logout);
+router.post(
+  "/logout",
+  verifyLogin,
+  access("super", "adminQC", "adminSale"),
+  usersHandler.logout
+);
 // update data admin
-router.put("/edit/:id", usersHandler.update);
+router.put(
+  "/edit/:id",
+  verifyLogin,
+  verifyLogin,
+  access("super", "adminQC", "adminSale"),
+  usersHandler.update
+);
 // update password
-router.put("/edit-password/:id", usersHandler.editPassword);
+router.put(
+  "/edit-password/:id",
+  verifyLogin,
+  verifyLogin,
+  access("super", "adminQC", "adminSale"),
+  usersHandler.editPassword
+);
 // get data user by id
-router.get("/:id", usersHandler.getuser);
+router.get("/:id", verifyLogin, access("super"), usersHandler.getuser);
 // get list user
-router.get("/", usersHandler.getListUser);
+router.get("/", verifyLogin, access("super"), usersHandler.getListUser);
 
 module.exports = router;
