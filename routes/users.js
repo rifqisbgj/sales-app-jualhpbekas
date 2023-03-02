@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const usersHandler = require("./handler/users");
+const verifyLogin = require("../middleware/verifyUser");
+const access = require("../middleware/permission");
 
 // create admin account
-router.post("/store", usersHandler.register);
+router.post("/store", verifyLogin, access("super"), usersHandler.register);
 // admin login
 router.post("/login", usersHandler.login);
 // admin logout
