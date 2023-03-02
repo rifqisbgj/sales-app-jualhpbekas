@@ -16,7 +16,7 @@ router.post(
 router.put(
   "/update/:slug",
   verifyLogin,
-  access("super", "adminSale", "adminQC"),
+  access("super", "adminSale"),
   productHandler.updateProduct
 );
 // get list product
@@ -27,7 +27,7 @@ router.get("/detail/:slug", productHandler.detailProduct);
 router.delete(
   "/delete",
   verifyLogin,
-  access("super", "adminSale", "adminQC"),
+  access("super", "adminSale"),
   productHandler.deleteProduct
 );
 
