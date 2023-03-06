@@ -9,12 +9,17 @@ const v = new Validator({
 });
 
 module.exports = async (req, res) => {
+  // namamerek tidak boleh kosong
   const schema = {
     namamerek: "string|empty:false",
   };
+
+  // ambil params id
   const id = req.params.id;
+  // ambil merek berdasarkan Pk
   const merek = await Merek.findByPk(id);
 
+  // jika merek tidak tersedia
   if (!merek) {
     return res
       .status(404)
@@ -50,11 +55,11 @@ module.exports = async (req, res) => {
       message: "Merek sudah tersedia",
     });
   }
-
+  // ubah nama merek
   const dataUpdate = await merek.update({
     namamerek: req.body.namamerek,
   });
-
+  // res ketika berhasil update
   return res.json({
     status: "success",
     data: dataUpdate,

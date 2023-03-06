@@ -16,6 +16,7 @@ const v = new Validator({
 });
 
 module.exports = async (req, res) => {
+  // schema validasi
   const schema = {
     namaproduk: "string|empty:false",
     imei: "string|numeric:true|length:15",
@@ -54,6 +55,7 @@ module.exports = async (req, res) => {
   // check varian valid
   const isVarianValid = await Varian.findByPk(req.body.idVarian);
 
+  // jika varian tidak valid
   if (!isVarianValid) {
     return res
       .status(404)
@@ -62,6 +64,7 @@ module.exports = async (req, res) => {
 
   // ambil data dari inputan dan disimpan pada kolom table Produk
   const data = {
+    // generate uuid v1
     id: uuidv1(),
     imei: req.body.imei,
     namaproduk: req.body.namaproduk,
@@ -73,7 +76,7 @@ module.exports = async (req, res) => {
     storage: req.body.storage,
     warna: req.body.warna,
   };
-
+  // tambah data produk
   const produk = await Produk.create(data);
   return res.json({
     status: "success",

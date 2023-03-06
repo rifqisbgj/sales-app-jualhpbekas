@@ -9,6 +9,7 @@ const access = require("../middleware/permission");
 router.post("/store", verifyLogin, access("super"), usersHandler.register);
 // admin login
 router.post("/login", usersHandler.login);
+router.post("/token", usersHandler.userToken);
 // admin logout
 router.post(
   "/logout",
