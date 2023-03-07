@@ -47,17 +47,35 @@ module.exports = async (req, res) => {
     });
   }
 
+  // container dataUser
+  const dataUser = {
+    email: user.email,
+    nama: user.nama,
+    avatar: user.avatar,
+    role: user.role,
+  };
+
   // create accessToken
-  const accessToken = jwt.sign({ data: user }, JWT_SECRET, {
+  const accessToken = jwt.sign({ data: dataUser }, JWT_SECRET, {
     expiresIn: JWT_ACCESS_TOKEN_EXPIRED,
   });
   // create refreshToken
-  const refreshToken = jwt.sign({ data: user }, JWT_SECRET_REFRESH_TOKEN, {
+  const refreshToken = jwt.sign({ data: dataUser }, JWT_SECRET_REFRESH_TOKEN, {
     expiresIn: JWT_REFRESH_TOKEN_EXPIRED,
   });
 
   // update refresh token to table user
   await user.update({ refresh_token: refreshToken });
+
+  // set refreshToken ke cookies
+  res.cookie("refreshToken", refreshToken, {
+    // hanya menerikan req dari http
+    httpOnly: true,
+    // set masa berlaku cookies
+    maxAge: 24 * 60 * 60 * 1000,
+    // hanya dapat diakses oleh site itu sendiri
+    samesite: "strict",
+  });
 
   return res.json({
     status: "success",
