@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
   const validate = valid.validate(req.body, schema);
 
   if (validate.length) {
-    return res.status(409).json({
+    return res.status(400).json({
       status: "error",
       message: validate,
     });
@@ -73,15 +73,12 @@ module.exports = async (req, res) => {
     httpOnly: true,
     // set masa berlaku cookies
     maxAge: 24 * 60 * 60 * 1000,
-    // hanya dapat diakses oleh site itu sendiri
-    samesite: "strict",
   });
 
   return res.json({
     status: "success",
     data: {
       accessToken,
-      refreshToken,
     },
   });
 };

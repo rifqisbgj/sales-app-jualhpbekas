@@ -1,12 +1,12 @@
 const { Users } = require("../../../models");
-const uuid = require("uuid");
+const validateUUID = require("../../../helper/validateUUID");
 
 module.exports = async (req, res) => {
-  if (!uuid.validate(req.params.id)) {
+  // validasi UUID berdasarkan params id
+  if (!validateUUID(req.params.id))
     return res
       .status(400)
       .json({ status: "error", message: "Invalid user identity" });
-  }
 
   const user = await Users.findByPk(req.params.id, {
     attributes: ["id", "nama", "email", "role", "avatar"],

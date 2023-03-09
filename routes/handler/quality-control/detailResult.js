@@ -1,12 +1,13 @@
 const { HasilQC, Produk, Users } = require("../../../models");
-const uuid = require("uuid");
+const validateUUID = require("../../../helper/validateUUID");
 
 module.exports = async (req, res) => {
-  if (!uuid.validate(req.params.id)) {
+  // validasi UUID berdasarkan params id
+  if (!validateUUID(req.params.id))
     return res
       .status(400)
       .json({ status: "error", message: "Invalid quality control identity" });
-  }
+
   // menampilkan detail hasil qc dengan nilai imei, namaproduk, ram, storage, warna dan nama adminQC
   const qc = await HasilQC.findByPk(req.params.id, {
     attributes: { exclude: ["updatedAt"] },

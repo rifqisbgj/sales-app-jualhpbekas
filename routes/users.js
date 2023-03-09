@@ -9,14 +9,9 @@ const access = require("../middleware/permission");
 router.post("/store", verifyLogin, access("super"), usersHandler.register);
 // admin login
 router.post("/login", usersHandler.login);
-router.post("/token", usersHandler.userToken);
+router.get("/token", usersHandler.userToken);
 // admin logout
-router.post(
-  "/logout",
-  verifyLogin,
-  access("super", "adminQC", "adminSale"),
-  usersHandler.logout
-);
+router.post("/logout", usersHandler.logout);
 // update data admin
 router.put(
   "/edit/:id",

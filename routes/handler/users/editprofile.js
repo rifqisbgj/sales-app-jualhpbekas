@@ -1,14 +1,15 @@
 const { Users } = require("../../../models");
-const uuid = require("uuid");
+const validateUUID = require("../../../helper/validateUUID");
 const Validator = require("fastest-validator");
 const valid = new Validator();
 
 module.exports = async (req, res) => {
-  if (!uuid.validate(req.params.id)) {
+  // validasi UUID berdasarkan params id
+  if (!validateUUID(req.params.id))
     return res
       .status(400)
       .json({ status: "error", message: "Invalid user identity" });
-  }
+
   const schema = {
     name: "string|empty:false",
     email: "email|empty:false",

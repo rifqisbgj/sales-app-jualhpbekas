@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const { Users } = require("../../../models");
 
 module.exports = async (req, res) => {
+  // mengambil daftar pengguna/admin berdasarkan query
   const namaAdmin = req.query.name_user || [];
   const sqlOptions = {
     attributes: ["id", "nama", "email", "role", "avatar"],
@@ -12,7 +13,7 @@ module.exports = async (req, res) => {
       [Op.or]: [{ nama: { [Op.like]: "%" + namaAdmin + "%" } }],
     };
   }
-
+  // mengambil seluruh data user sesuai dengan sqlOptions
   const users = await Users.findAll(sqlOptions);
 
   return res.json({
