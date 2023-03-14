@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
   // ambil data dengan antribut yang telah ditentukan
   const sqlOptions = {
-    attributes: ["id", "nama", "email", "role", "avatar"],
+    attributes: ["id", "nama", "email", "role", "avatar", "createdAt"],
   };
 
   // jika terdapat nilai searching user

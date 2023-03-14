@@ -8,14 +8,14 @@ module.exports = async (req, res) => {
       .status(400)
       .json({ status: "error", message: "Invalid quality control identity" });
 
-  // menampilkan detail hasil qc dengan nilai imei, namaproduk, ram, storage, warna dan nama adminQC
+  // menampilkan detail hasil qc dengan nilai imei, kodeproduk, ram, storage, warna dan nama adminQC
   const qc = await HasilQC.findByPk(req.params.id, {
     attributes: { exclude: ["updatedAt"] },
     include: [
       {
         model: Produk,
         as: "produkQC",
-        attributes: ["imei", "namaproduk", "ram", "storage", "warna"],
+        attributes: ["imei", "kodeproduk", "ram", "storage", "warna"],
       },
       { model: Users, as: "qcBy", attributes: ["nama"] },
     ],

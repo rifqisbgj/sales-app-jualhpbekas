@@ -32,5 +32,7 @@ router.put(
 router.get("/:id", verifyLogin, access("super"), usersHandler.getuser);
 // get list user
 router.get("/", verifyLogin, access("super"), usersHandler.getListUser);
+// delete user
+router.delete("/delete", verifyLogin, access("super"), usersHandler.deleteUser);
 
 module.exports = router;

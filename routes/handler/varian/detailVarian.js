@@ -8,7 +8,8 @@ module.exports = async (req, res) => {
       model: Produk,
       as: "produk",
       attributes: [
-        "namaproduk",
+        "imei",
+        "kodeproduk",
         "harga",
         "statusproduk",
         "ram",

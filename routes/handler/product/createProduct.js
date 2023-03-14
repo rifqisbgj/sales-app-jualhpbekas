@@ -2,6 +2,7 @@ const { Produk, Varian } = require("../../../models");
 const { v1: uuidv1 } = require("uuid");
 const slug = require("slug");
 const Validator = require("fastest-validator");
+const uniqueCode = require("../../../helper/deleteFile");
 const generateRandomString = require("../../../helper/randomString");
 // Custom error messages for validation
 const v = new Validator({
@@ -18,12 +19,11 @@ const v = new Validator({
 module.exports = async (req, res) => {
   // schema validasi
   const schema = {
-    namaproduk: "string|empty:false",
     imei: "string|numeric:true|length:15",
     harga: "number|min:0",
     deskripsi: "string|empty:true",
-    ram: "string|empty:false",
-    storage: "string|empty:false",
+    ram: "number|empty:false",
+    storage: "number|empty:false",
     warna: "string|empty:false",
     idVarian: "number",
   };
@@ -67,8 +67,17 @@ module.exports = async (req, res) => {
     // generate uuid v1
     id: uuidv1(),
     imei: req.body.imei,
-    namaproduk: req.body.namaproduk,
-    slug: slug(req.body.namaproduk + " " + generateRandomString(10)),
+    // generate product code
+    kodeproduk: "PRD - " + uniqueCode(),
+    slug: slug(
+      isVarianValid.namavarian +
+        " " +
+        req.body.warna +
+        " " +
+        req.body.storage +
+        " " +
+        generateRandomString(10)
+    ),
     harga: req.body.harga,
     id_varian: req.body.idVarian,
     ram: req.body.ram,

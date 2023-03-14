@@ -4,10 +4,14 @@ module.exports = async (req, res) => {
   // find by slug
   const produk = await Produk.findOne({
     where: { slug: req.params.slug },
-    attributes: { exclude: ["updatedAt", "id_varian"] },
+    attributes: { exclude: ["updatedAt"] },
     include: [
-      { model: GambarProduk, as: "gambarProduk", attributes: ["image"] },
-      { model: Varian, as: "varianProduk", attributes: ["namavarian"] },
+      { model: GambarProduk, as: "gambarProduk", attributes: ["image", "id"] },
+      {
+        model: Varian,
+        as: "varianProduk",
+        attributes: ["namavarian", "id_merk"],
+      },
       {
         model: HasilQC,
         as: "qcProduct",

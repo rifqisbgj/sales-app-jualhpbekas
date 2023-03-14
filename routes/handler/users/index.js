@@ -6,6 +6,7 @@ const getListUser = require("./getListUser");
 const logout = require("./logout");
 const editPassword = require("./editPassword");
 const userToken = require("./userToken");
+const deleteUser = require("./deleteUser");
 
 module.exports = {
   register,
@@ -16,4 +17,5 @@ module.exports = {
   logout,
   editPassword,
   userToken,
+  deleteUser,
 };

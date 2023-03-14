@@ -53,6 +53,7 @@ module.exports = async (req, res) => {
     nama: user.nama,
     avatar: user.avatar,
     role: user.role,
+    id: user.id,
   };
 
   // create accessToken

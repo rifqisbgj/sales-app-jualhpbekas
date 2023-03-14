@@ -4,6 +4,7 @@ const updateVarian = require("./updateVarian");
 const detailVarian = require("./detailVarian");
 const getVarian = require("./getVarian");
 const deleteVarian = require("./deleteVarian");
+const getVarianByBrand = require("./getVarianByBrand");
 
 module.exports = {
   getAllVarians,
@@ -12,4 +13,5 @@ module.exports = {
   detailVarian,
   getVarian,
   deleteVarian,
+  getVarianByBrand,
 };

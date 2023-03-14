@@ -29,9 +29,9 @@ module.exports = async (req, res) => {
   }
 
   // jika minPrice tidak diatur
-  if (minPrice === "null") minPrice = 0;
+  if (minPrice === "null" || minPrice !== "undefined") minPrice = 0;
   // jika maxPrice tidak diatur
-  if (maxPrice === "null") maxPrice = 9999999;
+  if (maxPrice === "null" || maxPrice !== "undefined") maxPrice = 9999999;
 
   // menyimpan hasil pengambilan data produk dari db
   let result = [];

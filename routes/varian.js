@@ -19,6 +19,8 @@ router.get("/", varianHandler.getAllVarians);
 router.get("/detail/:id", varianHandler.detailVarian);
 // detail for edit varian
 router.get("/edit/:id", varianHandler.getVarian);
+// get varian by brand
+router.get("/viewbybrand/:id", varianHandler.getVarianByBrand);
 // delete varian
 router.delete(
   "/delete",

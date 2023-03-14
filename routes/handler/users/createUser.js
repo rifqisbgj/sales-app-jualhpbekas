@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { Users } = require("../../../models");
+const { Users, sequelize } = require("../../../models");
 const { v1: uuidv1 } = require("uuid");
 const Validator = require("fastest-validator");
 // kustom validasi jika terdapat error
@@ -7,7 +7,6 @@ const valid = new Validator({
   messages: {
     string: "Silahkan cek kembali bidang {field} ",
     stringEmpty: "{field} tidak boleh kosong",
-    number: "Kesalahan format pada '{field}'",
     required: "{field} tidak boleh kosong",
     stringMin: "{field} harus berisi minimal {expected} digit",
     email: "{field} harus berisi format email yang benar",
@@ -36,7 +35,12 @@ module.exports = async (req, res) => {
   }
   // find email exists
   const user = await Users.findOne({
-    where: { email: req.body.email },
+    where: {
+      email: sequelize.where(
+        sequelize.fn("lower", sequelize.col("email")),
+        req.body.email.toLowerCase()
+      ),
+    },
   });
 
   // // get uuid createdBy
