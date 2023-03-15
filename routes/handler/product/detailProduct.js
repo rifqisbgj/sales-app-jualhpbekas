@@ -1,12 +1,23 @@
-const { Produk, GambarProduk, Varian, HasilQC } = require("../../../models");
+const {
+  Produk,
+  GambarProduk,
+  Varian,
+  HasilQC,
+  Users,
+} = require("../../../models");
 
 module.exports = async (req, res) => {
   // find by slug
   const produk = await Produk.findOne({
     where: { slug: req.params.slug },
     attributes: { exclude: ["updatedAt"] },
+
     include: [
-      { model: GambarProduk, as: "gambarProduk", attributes: ["image", "id"] },
+      {
+        model: GambarProduk,
+        as: "gambarProduk",
+        attributes: ["image", "id"],
+      },
       {
         model: Varian,
         as: "varianProduk",
@@ -16,8 +27,10 @@ module.exports = async (req, res) => {
         model: HasilQC,
         as: "qcProduct",
         attributes: { exclude: ["id_produk", "id_adminqc", "updatedAt"] },
+        include: [{ model: Users, as: "qcBy", attributes: ["nama"] }],
       },
     ],
+    order: [[{ model: GambarProduk, as: "gambarProduk" }, "id", "ASC"]],
   });
 
   // product doesn't exist

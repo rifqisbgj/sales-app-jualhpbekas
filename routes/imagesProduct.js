@@ -12,11 +12,12 @@ router.post(
   verifyLogin,
   access("super", "adminSale"),
   // middleware for upload max five image product
-  upload.array("product-image", 5),
+  upload.array("productImage", 5),
   imgProductHandler.createProductImage,
   (error, req, res, next) => {
     // send error image input
-    return res.status(400).send({ error: error.message });
+    console.log(error.message);
+    return res.status(400).send([{ message: error.message }]);
   }
 );
 
@@ -26,11 +27,11 @@ router.put(
   verifyLogin,
   access("super", "adminSale"),
   // middleware for upload single image product
-  upload.single("product-image"),
+  upload.single("productImage"),
   imgProductHandler.updateImage,
   (error, req, res, next) => {
     // send error image input
-    return res.status(400).send({ error: error.message });
+    return res.status(400).send([{ message: error.message }]);
   }
 );
 

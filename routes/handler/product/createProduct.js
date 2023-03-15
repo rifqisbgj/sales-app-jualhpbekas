@@ -2,13 +2,13 @@ const { Produk, Varian } = require("../../../models");
 const { v1: uuidv1 } = require("uuid");
 const slug = require("slug");
 const Validator = require("fastest-validator");
-const uniqueCode = require("../../../helper/deleteFile");
+const uniqueCode = require("../../../helper/uniqueCode");
 const generateRandomString = require("../../../helper/randomString");
 // Custom error messages for validation
 const v = new Validator({
   messages: {
     string: "Silahkan cek kembali bidang {field} ",
-    stringEmpty: "Nama produk tidak boleh kosong",
+    stringEmpty: "{field} tidak boleh kosong",
     number: "Kesalahan format pada '{field}'",
     required: "{field} tidak boleh kosong",
     stringNumeric: "{field} harus berupa angka",
@@ -20,12 +20,12 @@ module.exports = async (req, res) => {
   // schema validasi
   const schema = {
     imei: "string|numeric:true|length:15",
-    harga: "number|min:0",
-    deskripsi: "string|empty:true",
-    ram: "number|empty:false",
-    storage: "number|empty:false",
+    harga: "string|optional|min:0",
+    deskripsi: "string|optional",
+    ram: "string|numeric:true|empty:false",
+    storage: "string|numeric:true|empty:false",
     warna: "string|empty:false",
-    idVarian: "number",
+    varian: "string|empty:false",
   };
 
   // validasi inputan dengan schema pengecekan
@@ -46,20 +46,22 @@ module.exports = async (req, res) => {
 
   // jika imei produk sudah tersedia, maka kembalikan error status 409
   if (isImeiExist) {
-    return res.status(409).json({
-      status: "error",
-      message: "imei sudah tersedia",
-    });
+    return res.status(409).json([
+      {
+        status: "error",
+        message: "imei sudah tersedia",
+      },
+    ]);
   }
 
   // check varian valid
-  const isVarianValid = await Varian.findByPk(req.body.idVarian);
+  const isVarianValid = await Varian.findByPk(req.body.varian);
 
   // jika varian tidak valid
   if (!isVarianValid) {
     return res
       .status(404)
-      .json({ status: "error", message: "varian tidak ditemukan" });
+      .json([{ status: "error", message: "varian tidak ditemukan" }]);
   }
 
   // ambil data dari inputan dan disimpan pada kolom table Produk
@@ -78,11 +80,11 @@ module.exports = async (req, res) => {
         " " +
         generateRandomString(10)
     ),
-    harga: req.body.harga,
-    id_varian: req.body.idVarian,
-    ram: req.body.ram,
+    harga: parseInt(req.body.harga),
+    id_varian: parseInt(req.body.varian),
+    ram: parseInt(req.body.ram),
     deskripsi: req.body.deskripsi,
-    storage: req.body.storage,
+    storage: parseInt(req.body.storage),
     warna: req.body.warna,
   };
   // tambah data produk

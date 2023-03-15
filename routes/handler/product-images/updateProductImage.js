@@ -3,7 +3,7 @@ const fs = require("fs");
 const deleteFile = require("../../../helper/deleteFile");
 
 module.exports = async (req, res) => {
-  const imgprdk = await GambarProduk.findByPk(parseInt(req.body.idImgProduct));
+  const imgprdk = await GambarProduk.findByPk(req.body.idImgProduct);
 
   // check image product exist
   if (!imgprdk) {
@@ -11,13 +11,13 @@ module.exports = async (req, res) => {
     deleteFile(`./public/product-image/${req.file.filename}`);
     return res
       .status(404)
-      .json({ status: "error", message: "product image not found" });
+      .json([{ status: "error", message: "product image not found" }]);
   }
 
   if (!req.file)
     return res
       .status(400)
-      .json({ status: "error", message: "image file can't blank" });
+      .json([{ status: "error", message: "image file can't blank" }]);
 
   //   check file exist
   if (fs.existsSync(`./public/product-image/${imgprdk.image}`)) {
