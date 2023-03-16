@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Produk, GambarProduk, Varian } = require("../../../models");
+const { Produk, GambarProduk, Varian, HasilQC } = require("../../../models");
 
 module.exports = async (req, res) => {
   // ambil query lastCreate, jika tidak ada maka set dengan Date.parse(0)
@@ -54,6 +54,7 @@ module.exports = async (req, res) => {
           // filter berdasarkan brand
           where: paramsQBrandFilter.where,
         },
+        { model: HasilQC, as: "qcProduct" },
       ],
       order: [["createdAt", "DESC"]],
     });
@@ -76,6 +77,7 @@ module.exports = async (req, res) => {
           attributes: ["namavarian", "id_merk"],
           where: paramsQBrandFilter.where,
         },
+        { model: HasilQC, as: "qcProduct" },
       ],
       order: [["createdAt", "DESC"]],
     });

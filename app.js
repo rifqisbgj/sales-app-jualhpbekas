@@ -12,6 +12,8 @@ const productRouter = require("./routes/product");
 const imagesProductRouter = require("./routes/imagesProduct");
 const qcRouter = require("./routes/qualityControl");
 const usersRouter = require("./routes/users");
+const customerRouter = require("./routes/customer");
+const transaksiRouter = require("./routes/transaksi");
 
 const cors = require("cors");
 
@@ -32,5 +34,7 @@ app.use("/product", productRouter);
 app.use("/product-image", imagesProductRouter);
 app.use("/qc", qcRouter);
 app.use("/users", usersRouter);
+app.use("/customer", customerRouter);
+app.use("/transaksi", transaksiRouter);
 
 module.exports = app;

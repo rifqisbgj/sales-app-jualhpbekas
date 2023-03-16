@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
   // schema validasi
   const schema = {
     imei: "string|numeric:true|length:15",
-    harga: "string|optional|min:0",
+    harga: "string|optional",
     deskripsi: "string|optional",
     ram: "string|numeric:true|empty:false",
     storage: "string|numeric:true|empty:false",

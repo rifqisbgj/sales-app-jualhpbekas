@@ -4,8 +4,7 @@ const fs = require("fs");
 
 module.exports = async (req, res) => {
   // ambil data produk, gambar produk, dan hasil QC berdasarkan slug produk
-  const product = await Produk.findOne({
-    where: { slug: req.body.slug },
+  const product = await Produk.findByPk(req.body.id, {
     include: ["gambarProduk", "qcProduct"],
   });
   // res jika produk tidak tersedia
@@ -15,10 +14,11 @@ module.exports = async (req, res) => {
       .json({ status: "error", message: "product not found" });
   }
   // jika produk memiliki hasil QC maka tampilkan error conflict
-  if (product.produkQC) {
-    return res.status(409).json({
-      status: "error",
-      message: "Product have quality control result",
+  if (product.qcProduct) {
+    await product.update({ active: false });
+    return res.json({
+      status: "success",
+      message: "Product deactivated",
     });
   }
   // jika produk memiliki gambar produk

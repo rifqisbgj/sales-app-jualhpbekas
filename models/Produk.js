@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       slug: { type: DataTypes.STRING, allowNull: false },
       harga: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 0 },
       id_varian: { type: DataTypes.INTEGER, allowNull: false },
+      active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
       statusproduk: {
         type: DataTypes.ENUM,
         allowNull: false,
