@@ -36,14 +36,14 @@ module.exports = async (req, res) => {
   if (!isProduct)
     return res
       .status(404)
-      .json({ status: "error", message: "produk tidak tersedia" });
+      .json([{ status: "error", message: "produk tidak tersedia" }]);
 
   // check user exist
   const isUser = await Users.findByPk(req.body.id_adminqc);
   if (!isUser)
     return res
       .status(404)
-      .json({ status: "error", message: "admin QC tidak tersedia" });
+      .json([{ status: "error", message: "admin QC tidak tersedia" }]);
 
   // store data qc result
   const data = {
@@ -58,5 +58,7 @@ module.exports = async (req, res) => {
   };
 
   const hasilqc = await HasilQC.create(data);
+  // update status produk ke selesai qc
+  await isProduct.update({ statusproduk: "SQC" });
   return res.json({ status: "success", data: hasilqc });
 };

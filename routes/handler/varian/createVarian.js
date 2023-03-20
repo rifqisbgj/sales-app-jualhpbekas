@@ -10,9 +10,9 @@ const v = new Validator({
   },
 });
 module.exports = async (req, res) => {
+  console.log(req.body);
   const schema = {
     namavarian: "string|empty:false",
-    idMerek: "number",
   };
 
   // validasi inputan dengan schema pengecekan
@@ -45,10 +45,12 @@ module.exports = async (req, res) => {
 
   // jika varian sudah tersedia, maka kembalikan error status 409
   if (isVarianExist) {
-    return res.status(409).json({
-      status: "error",
-      message: "Varian sudah tersedia",
-    });
+    return res.status(409).json([
+      {
+        status: "error",
+        message: "Varian sudah tersedia",
+      },
+    ]);
   }
 
   const varian = await Varian.create(data);

@@ -1,4 +1,4 @@
-const { Transaksi } = require("../../../models");
+const { Transaksi, Produk } = require("../../../models");
 const { v1: uuidv1 } = require("uuid");
 const Validator = require("fastest-validator");
 const uniqueCode = require("../../../helper/uniqueCode");
@@ -19,6 +19,8 @@ module.exports = async (req, res) => {
     detail: "array|empty:false",
   };
 
+  // console.log(req.body.detail);
+
   // validasi inputan dengan schema pengecekan
   const validate = v.validate(req.body, schema);
 
@@ -29,6 +31,13 @@ module.exports = async (req, res) => {
       message: validate,
     });
   }
+
+  // set terjual
+  req.body.detail.forEach(async (trx) => {
+    const produk = await Produk.findByPk(trx.id);
+    produk.update({ statusproduk: "T" });
+  });
+
   // generate invoice
   const d = new Date();
   const invoice = `${d.getFullYear()}${d.getDate()}${d.getHours()}${d.getMilliseconds()}${uniqueCode()}`;

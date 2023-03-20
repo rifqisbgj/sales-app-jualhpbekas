@@ -16,11 +16,12 @@ router.post(
 router.put(
   "/update/:slug",
   verifyLogin,
-  access("super", "adminSale"),
+  access("super", "adminSale", "adminQC"),
   productHandler.updateProduct
 );
 // get list product
 router.get("/", productHandler.getAllProduct);
+router.get("/:kodeproduk", productHandler.getProductByCode);
 // get detail product
 router.get("/detail/:slug", productHandler.detailProduct);
 // delete product

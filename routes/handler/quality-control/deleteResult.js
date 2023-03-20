@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
   if (!qc) {
     return res
       .status(404)
-      .json({ status: "error", message: "Quality control result not found" });
+      .json([{ status: "error", message: "Quality control result not found" }]);
   }
 
   // validasi inputan dengan schema pengecekan

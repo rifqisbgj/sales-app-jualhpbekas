@@ -28,10 +28,13 @@ module.exports = async (req, res) => {
     };
   }
 
+  console.log(minPrice);
+
   // jika minPrice tidak diatur
-  if (minPrice === "null" || minPrice !== "undefined") minPrice = 0;
+  if (minPrice === "null" || typeof minPrice === "undefined") minPrice = 0;
   // jika maxPrice tidak diatur
-  if (maxPrice === "null" || maxPrice !== "undefined") maxPrice = 9999999;
+  if (maxPrice === "null" || typeof maxPrice === "undefined")
+    maxPrice = 9999999;
 
   // menyimpan hasil pengambilan data produk dari db
   let result = [];
@@ -40,7 +43,7 @@ module.exports = async (req, res) => {
     const produk = await Produk.findAll({
       where: {
         // search berdasarkan nama produk
-        [Op.or]: [{ namaproduk: { [Op.like]: "%" + search + "%" } }],
+        [Op.or]: [{ kodeproduk: { [Op.like]: "%" + search + "%" } }],
         // filter berdasarkan rentang harga
         [Op.or]: [{ harga: { [Op.gte]: minPrice, [Op.lte]: maxPrice } }],
       },
@@ -65,7 +68,7 @@ module.exports = async (req, res) => {
         createdAt: {
           [Op.lt]: last_create,
         },
-        [Op.or]: [{ namaproduk: { [Op.like]: "%" + search + "%" } }],
+        [Op.or]: [{ kodeproduk: { [Op.like]: "%" + search + "%" } }],
         [Op.or]: [{ harga: { [Op.gte]: minPrice, [Op.lte]: maxPrice } }],
       },
       limit: limit,

@@ -5,7 +5,12 @@ module.exports = async (req, res) => {
   const qc = await HasilQC.findAll({
     attributes: ["kodeQC", "id"],
     include: [
-      { model: Produk, as: "produkQC", attributes: ["imei"] },
+      {
+        model: Produk,
+        as: "produkQC",
+        attributes: ["id", "imei", "kodeproduk", "slug"],
+        include: ["varianProduk"],
+      },
       { model: Users, as: "qcBy", attributes: ["nama"] },
     ],
   });

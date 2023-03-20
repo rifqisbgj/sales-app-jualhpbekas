@@ -13,7 +13,6 @@ const v = new Validator({
 module.exports = async (req, res) => {
   const schema = {
     namavarian: "string|empty:false",
-    idMerek: "number",
   };
   const id = req.params.id;
   //   get data with Varian id
@@ -23,7 +22,7 @@ module.exports = async (req, res) => {
   if (!varian) {
     return res
       .status(404)
-      .json({ status: "error", message: "Data tidak ditemukan" });
+      .json([{ status: "error", message: "Data tidak ditemukan" }]);
   }
 
   // validasi inputan dengan schema pengecekan
@@ -39,21 +38,25 @@ module.exports = async (req, res) => {
 
   // Cek nama varian sudah tersedia/belum
   // sequelize.fn untuk merubah value dari kolom yang ada di db
-  const isVarianExist = await Varian.findOne({
-    where: {
-      cekNamaVarian: sequelize.where(
-        sequelize.fn("lower", sequelize.col("namavarian")),
-        req.body.namavarian.toLowerCase()
-      ),
-    },
-  });
-
-  // jika varian sudah tersedia, maka kembalikan error status 409
-  if (isVarianExist) {
-    return res.status(409).json({
-      status: "error",
-      message: "Varian sudah tersedia",
+  if (req.body.namavarian) {
+    const isVarianExist = await Varian.findOne({
+      where: {
+        cekNamaVarian: sequelize.where(
+          sequelize.fn("lower", sequelize.col("namavarian")),
+          req.body.namavarian.toLowerCase()
+        ),
+      },
     });
+
+    // jika varian sudah tersedia, maka kembalikan error status 409
+    if (isVarianExist && req.body.namavarian != varian.namavarian) {
+      return res.status(409).json([
+        {
+          status: "error",
+          message: "Varian sudah tersedia",
+        },
+      ]);
+    }
   }
 
   const dataUpdate = await varian.update({

@@ -15,6 +15,7 @@ const v = new Validator({
 });
 
 module.exports = async (req, res) => {
+  console.log(req.params.id);
   // validasi UUID berdasarkan params id
   if (!validateUUID(req.params.id))
     return res
