@@ -4,6 +4,8 @@ const slug = require("slug");
 const Validator = require("fastest-validator");
 const uniqueCode = require("../../../helper/uniqueCode");
 const generateRandomString = require("../../../helper/randomString");
+const logger = require("../../../helper/logger");
+
 // Custom error messages for validation
 const v = new Validator({
   messages: {
@@ -17,6 +19,7 @@ const v = new Validator({
 });
 
 module.exports = async (req, res) => {
+  const childLogger = logger.child({ user: `${req.user.data.email}` });
   // schema validasi
   const schema = {
     imei: "string|numeric:true|length:15",
@@ -33,6 +36,10 @@ module.exports = async (req, res) => {
 
   // jika terdapat error pada validasi
   if (validate.length) {
+    childLogger.error(`Gagal menambahkan produk, format input salah`, {
+      method: req.method,
+      url: req.originalUrl,
+    });
     return res.status(400).json({
       status: "error",
       message: validate,
@@ -46,6 +53,10 @@ module.exports = async (req, res) => {
 
   // jika imei produk sudah tersedia, maka kembalikan error status 409
   if (isImeiExist) {
+    childLogger.error(`Gagal menambahkan produk, IMEI produk sudah tersedia`, {
+      method: req.method,
+      url: req.originalUrl,
+    });
     return res.status(409).json([
       {
         status: "error",
@@ -89,6 +100,10 @@ module.exports = async (req, res) => {
   };
   // tambah data produk
   const produk = await Produk.create(data);
+  childLogger.info(`Berhasil menambahkan produk: ${produk.kodeproduk}`, {
+    method: req.method,
+    url: req.originalUrl,
+  });
   return res.json({
     status: "success",
     data: produk,

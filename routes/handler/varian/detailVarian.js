@@ -1,22 +1,26 @@
-const { Varian, Produk } = require("../../../models");
+const { Varian, Produk, Merek } = require("../../../models");
 
 module.exports = async (req, res) => {
   // check varian exist
   const varian = await Varian.findByPk(req.params.id, {
     // associate Varian with Produk as produk and get specific attributes
-    include: {
-      model: Produk,
-      as: "produk",
-      attributes: [
-        "imei",
-        "kodeproduk",
-        "harga",
-        "statusproduk",
-        "ram",
-        "storage",
-        "warna",
-      ],
-    },
+    include: [
+      {
+        model: Produk,
+        as: "produk",
+        attributes: [
+          "imei",
+          "kodeproduk",
+          "harga",
+          "statusproduk",
+          "ram",
+          "storage",
+          "warna",
+          "slug",
+        ],
+      },
+      { model: Merek, as: "merk", attributes: ["namamerek"] },
+    ],
     attributes: ["namavarian"],
   });
 

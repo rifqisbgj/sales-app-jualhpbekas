@@ -6,11 +6,16 @@ const verifyLogin = require("../middleware/verifyUser");
 const access = require("../middleware/permission");
 
 // store new varian
-router.post("/store", verifyLogin, access("super"), varianHandler.createVarian);
+router.post(
+  "/store",
+  verifyLogin,
+  access("super", "adminSale"),
+  varianHandler.createVarian
+);
 router.put(
   "/update/:id",
   verifyLogin,
-  access("super"),
+  access("super", "adminSale"),
   varianHandler.updateVarian
 );
 // get all varian with brand name
@@ -25,7 +30,7 @@ router.get("/viewbybrand/:id", varianHandler.getVarianByBrand);
 router.delete(
   "/delete",
   verifyLogin,
-  access("super"),
+  access("super", "adminSale"),
   varianHandler.deleteVarian
 );
 

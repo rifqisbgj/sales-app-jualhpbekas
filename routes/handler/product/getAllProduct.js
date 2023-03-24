@@ -1,5 +1,11 @@
 const { Op } = require("sequelize");
-const { Produk, GambarProduk, Varian, HasilQC } = require("../../../models");
+const {
+  Produk,
+  GambarProduk,
+  Varian,
+  HasilQC,
+  sequelize,
+} = require("../../../models");
 
 module.exports = async (req, res) => {
   // ambil query lastCreate, jika tidak ada maka set dengan Date.parse(0)
@@ -13,6 +19,7 @@ module.exports = async (req, res) => {
   // ambil var query maxPrice, minPrice
   let { maxPrice, minPrice } = req.query;
 
+  console.log(search);
   // object untuk menyimpan id mana saja yang akan ditampilkan
   const paramsQBrandFilter = {};
   // jika brand tersedia
@@ -28,8 +35,6 @@ module.exports = async (req, res) => {
     };
   }
 
-  console.log(minPrice);
-
   // jika minPrice tidak diatur
   if (minPrice === "null" || typeof minPrice === "undefined") minPrice = 0;
   // jika maxPrice tidak diatur
@@ -42,11 +47,19 @@ module.exports = async (req, res) => {
   if (last_create == Date.parse(0)) {
     const produk = await Produk.findAll({
       where: {
-        // search berdasarkan nama produk
-        [Op.or]: [{ kodeproduk: { [Op.like]: "%" + search + "%" } }],
-        // filter berdasarkan rentang harga
-        [Op.or]: [{ harga: { [Op.gte]: minPrice, [Op.lte]: maxPrice } }],
+        [Op.and]: [
+          // filter berdasarkan rentang harga
+          { harga: { [Op.gte]: minPrice, [Op.lte]: maxPrice } },
+          // search berdasarkan nama produk
+          {
+            varianproduk: sequelize.where(
+              sequelize.fn("lower", sequelize.col("varianProduk.namavarian")),
+              { [Op.like]: "%" + search.toLowerCase() + "%" }
+            ),
+          },
+        ],
       },
+      attributes: { exclude: ["updatedAt", "deskripsi"] },
       limit: limit,
       include: [
         { model: GambarProduk, as: "gambarProduk", limit: 1 },
@@ -68,8 +81,17 @@ module.exports = async (req, res) => {
         createdAt: {
           [Op.lt]: last_create,
         },
-        [Op.or]: [{ kodeproduk: { [Op.like]: "%" + search + "%" } }],
-        [Op.or]: [{ harga: { [Op.gte]: minPrice, [Op.lte]: maxPrice } }],
+        [Op.and]: [
+          // filter berdasarkan rentang harga
+          { harga: { [Op.gte]: minPrice, [Op.lte]: maxPrice } },
+          // search berdasarkan nama produk
+          {
+            varianproduk: sequelize.where(
+              sequelize.fn("lower", sequelize.col("varianProduk.namavarian")),
+              { [Op.like]: "%" + search.toLowerCase() + "%" }
+            ),
+          },
+        ],
       },
       limit: limit,
       include: [

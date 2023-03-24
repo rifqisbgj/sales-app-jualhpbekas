@@ -5,7 +5,9 @@ module.exports = async (req, res) => {
   const produk = await Produk.findAll({
     where: {
       [Op.or]: [
+        // get product by product code search
         { kodeproduk: { [Op.like]: "%" + req.params.kodeproduk + "%" } },
+        // get product by varian name search
         {
           varianproduk: sequelize.where(
             sequelize.fn("lower", sequelize.col("varianProduk.namavarian")),
