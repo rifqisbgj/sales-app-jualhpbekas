@@ -1,5 +1,6 @@
 const { Varian, sequelize } = require("../../../models");
 const Validator = require("fastest-validator");
+const logger = require("../../../helper/logger");
 // Custom error messages for validation
 const v = new Validator({
   messages: {
@@ -10,7 +11,8 @@ const v = new Validator({
   },
 });
 module.exports = async (req, res) => {
-  console.log(req.body);
+  // set meta data log
+  const childLogger = logger.child({ user: `${req.user.data.email}` });
   const schema = {
     namavarian: "string|empty:false",
   };
@@ -20,6 +22,10 @@ module.exports = async (req, res) => {
 
   // jika terdapat error pada validasi
   if (validate.length) {
+    childLogger.error(`Gagal menambahkan varian, format input salah`, {
+      method: req.method,
+      url: req.originalUrl,
+    });
     return res.status(400).json({
       status: "error",
       message: validate,
@@ -45,6 +51,14 @@ module.exports = async (req, res) => {
 
   // jika varian sudah tersedia, maka kembalikan error status 409
   if (isVarianExist) {
+    // add error log varian
+    childLogger.error(
+      `Gagal menambahkan varian, varian ${req.body.namavarian} sudah tersedia`,
+      {
+        method: req.method,
+        url: req.originalUrl,
+      }
+    );
     return res.status(409).json([
       {
         status: "error",
@@ -54,6 +68,10 @@ module.exports = async (req, res) => {
   }
 
   const varian = await Varian.create(data);
+  childLogger.info(`Berhasil menambahkan varian ${req.body.namavarian}`, {
+    method: req.method,
+    url: req.originalUrl,
+  });
   return res.json({
     status: "success",
     data: varian,
