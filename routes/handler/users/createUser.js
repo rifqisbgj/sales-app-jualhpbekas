@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const { Users, sequelize } = require("../../../models");
 const { v1: uuidv1 } = require("uuid");
 const Validator = require("fastest-validator");
+const logger = require("../../../helper/logger");
 // kustom validasi jika terdapat error
 const valid = new Validator({
   messages: {
@@ -15,6 +16,8 @@ const valid = new Validator({
 });
 
 module.exports = async (req, res) => {
+  // set meta data log
+  const childLogger = logger.child({ user: `${req.user.data.email}` });
   const schema = {
     name: "string|empty:false",
     email: "email|empty:false",
@@ -28,6 +31,11 @@ module.exports = async (req, res) => {
 
   // if validate have an array it's mean error
   if (validate.length) {
+    // add error log create user
+    childLogger.error(`Gagal menambahkan pengguna, format input salah`, {
+      method: req.method,
+      url: req.originalUrl,
+    });
     return res.status(400).json({
       status: "error",
       message: validate,
@@ -50,6 +58,14 @@ module.exports = async (req, res) => {
 
   // jika user sudah tersedia
   if (user) {
+    // add error log create user
+    childLogger.error(
+      `Gagal menambahkan pengguna, email ${req.body.email} sudah tersedia`,
+      {
+        method: req.method,
+        url: req.originalUrl,
+      }
+    );
     return res.status(409).json([
       {
         status: "error",
@@ -75,7 +91,14 @@ module.exports = async (req, res) => {
 
   // create user
   const createUser = await Users.create(data);
-
+  // add info log success create user
+  childLogger.info(
+    `Berhasil menambahkan pengguna, dengan email: ${req.body.email}`,
+    {
+      method: req.method,
+      url: req.originalUrl,
+    }
+  );
   // res if success
   return res.json({
     status: "success",

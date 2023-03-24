@@ -22,6 +22,7 @@ module.exports = async (req, res) => {
 
   // jika terdapat error pada validasi
   if (validate.length) {
+    // add error log varian
     childLogger.error(`Gagal menambahkan varian, format input salah`, {
       method: req.method,
       url: req.originalUrl,

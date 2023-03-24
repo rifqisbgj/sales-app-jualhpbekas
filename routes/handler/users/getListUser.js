@@ -22,6 +22,7 @@ module.exports = async (req, res) => {
   sqlOptions.where = {
     role: { [Op.not]: "super" },
   };
+  sqlOptions.order = [["createdAt", "DESC"]];
 
   // mengambil seluruh data user sesuai dengan sqlOptions
   const users = await Users.findAll(sqlOptions);
