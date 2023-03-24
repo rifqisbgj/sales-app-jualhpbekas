@@ -1,6 +1,7 @@
 const { HasilQC, Produk, Users } = require("../../../models");
 const Validator = require("fastest-validator");
 const validateUUID = require("../../../helper/validateUUID");
+const logger = require("../../../helper/logger");
 
 // Custom error messages for validation
 const v = new Validator({
@@ -15,7 +16,8 @@ const v = new Validator({
 });
 
 module.exports = async (req, res) => {
-  console.log(req.params.id);
+  // set meta data log
+  const childLogger = logger.child({ user: `${req.user.data.email}` });
   // validasi UUID berdasarkan params id
   if (!validateUUID(req.params.id))
     return res
@@ -43,6 +45,14 @@ module.exports = async (req, res) => {
 
   //   jika terjadi error validasi
   if (validate.length) {
+    // add error log update QC
+    childLogger.error(
+      `Gagal memperbarui QC dengan kode: ${qc.kodeQC}, format input salah`,
+      {
+        method: req.method,
+        url: req.originalUrl,
+      }
+    );
     return res.status(400).json({ status: "error", message: validate });
   }
 
@@ -66,6 +76,11 @@ module.exports = async (req, res) => {
     batre: req.body.batre,
     sinyal: req.body.sinyal,
     catatan: req.body.catatan,
+  });
+  // add info log success update QC
+  childLogger.info(`Berhasil memperbarui QC dengan kode: ${qc.kodeQC}`, {
+    method: req.method,
+    url: req.originalUrl,
   });
 
   return res.json({ status: "success", data: dataQc });

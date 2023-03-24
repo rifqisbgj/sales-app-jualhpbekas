@@ -2,6 +2,7 @@ const { HasilQC, Produk, Users } = require("../../../models");
 const { v1: uuidv1 } = require("uuid");
 const uniqueCode = require("../../../helper/uniqueCode");
 const Validator = require("fastest-validator");
+const logger = require("../../../helper/logger");
 // Custom error messages for validation
 const v = new Validator({
   messages: {
@@ -15,6 +16,8 @@ const v = new Validator({
 });
 
 module.exports = async (req, res) => {
+  // set meta data log
+  const childLogger = logger.child({ user: `${req.user.data.email}` });
   const schema = {
     layar: "boolean",
     batre: "boolean",
@@ -28,6 +31,11 @@ module.exports = async (req, res) => {
 
   //   jika terjadi error validasi
   if (validate.length) {
+    // add error log qc result
+    childLogger.error(`Gagal menambahkan hasil QC, format input salah`, {
+      method: req.method,
+      url: req.originalUrl,
+    });
     return res.status(400).json({ status: "error", message: validate });
   }
 
@@ -58,7 +66,23 @@ module.exports = async (req, res) => {
   };
 
   const hasilqc = await HasilQC.create(data);
+  // add info log success create QC
+  childLogger.info(
+    `Berhasil menambahkan hasil QC dengan kode: ${hasilqc.kodeQC}`,
+    {
+      method: req.method,
+      url: req.originalUrl,
+    }
+  );
   // update status produk ke selesai qc
   await isProduct.update({ statusproduk: "SQC" });
+  // add info log update statusproduk -> SQC
+  childLogger.info(
+    `Berhasil melakukan QC produk dengan kode: ${isProduct.kodeproduk}`,
+    {
+      method: req.method,
+      url: req.originalUrl,
+    }
+  );
   return res.json({ status: "success", data: hasilqc });
 };

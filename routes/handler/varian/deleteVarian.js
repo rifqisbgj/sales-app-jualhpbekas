@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
   // hapus varian dengan fungsi destroy()
   await varian.destroy();
   // add log delete varian berhasil
-  childLogger.info(`Berhasil menghapus varian ${tempVarian}`, {
+  childLogger.warn(`Berhasil menghapus varian ${tempVarian}`, {
     method: req.method,
     url: req.originalUrl,
   });

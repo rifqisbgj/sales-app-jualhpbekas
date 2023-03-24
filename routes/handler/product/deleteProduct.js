@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
 
   // delete product
   await product.destroy();
-  childLogger.info(
+  childLogger.warn(
     `Produk dengan kode: ${product.kodeproduk} berhasil dihapus`,
     {
       method: req.method,

@@ -1,5 +1,6 @@
 const { HasilQC } = require("../../../models");
 const Validator = require("fastest-validator");
+const logger = require("../../../helper/logger");
 const v = new Validator({
   messages: {
     boolean: "Format input {field} tidak tepat",
@@ -12,6 +13,8 @@ const v = new Validator({
 });
 
 module.exports = async (req, res) => {
+  // set meta data log
+  const childLogger = logger.child({ user: `${req.user.data.email}` });
   const schema = {
     id_qc: "uuid|version:1",
   };
@@ -34,5 +37,10 @@ module.exports = async (req, res) => {
   }
 
   await qc.destroy();
+  // add info log success update QC
+  childLogger.warn(`Berhasil menghapus QC dengan kode: ${kodeQC}`, {
+    method: req.method,
+    url: req.originalUrl,
+  });
   return res.json({ status: "success", message: `${kodeQC} success deleted` });
 };
