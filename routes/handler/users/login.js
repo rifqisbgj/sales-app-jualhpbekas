@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const { Users } = require("../../../models");
 const Validator = require("fastest-validator");
 const jwt = require("jsonwebtoken");
+const logger = require("../../../helper/logger");
 const {
   JWT_SECRET,
   JWT_SECRET_REFRESH_TOKEN,
@@ -32,6 +33,11 @@ module.exports = async (req, res) => {
 
   // check if user doesn't exist
   if (!user) {
+    // add error log login
+    logger.error("Gagal login, email atau password salah", {
+      method: req.method,
+      url: req.originalUrl,
+    });
     return res.status(404).json({
       status: "error",
       message: "Email atau password salah",
@@ -41,6 +47,11 @@ module.exports = async (req, res) => {
   // compare password to check same or not
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) {
+    // add error log login
+    logger.error("Gagal login, email atau password salah", {
+      method: req.method,
+      url: req.originalUrl,
+    });
     return res.status(404).json({
       status: "error",
       message: "Email atau password salah",
@@ -76,6 +87,14 @@ module.exports = async (req, res) => {
     maxAge: 24 * 60 * 60 * 1000,
   });
 
+  // add info success login
+  logger.info(
+    `Berhasil login dengan email: ${user.email} | role: ${user.role}`,
+    {
+      method: req.method,
+      url: req.originalUrl,
+    }
+  );
   return res.json({
     status: "success",
     data: {

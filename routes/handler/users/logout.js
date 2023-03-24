@@ -1,4 +1,5 @@
 const { Users } = require("../../../models");
+const logger = require("../../../helper/logger");
 
 module.exports = async (req, res) => {
   const email = req.body.email;
@@ -17,6 +18,14 @@ module.exports = async (req, res) => {
 
   // hapus cookis refreshToken dari web
   res.clearCookie("refreshToken");
+  // add info success logout
+  logger.info(
+    `Berhasil logout dengan email: ${user.email} | role: ${user.role}`,
+    {
+      method: req.method,
+      url: req.originalUrl,
+    }
+  );
   return res.json({
     status: "success",
     message: "Logout Success",
