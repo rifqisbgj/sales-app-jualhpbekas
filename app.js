@@ -14,6 +14,7 @@ const qcRouter = require("./routes/qualityControl");
 const usersRouter = require("./routes/users");
 const customerRouter = require("./routes/customer");
 const transaksiRouter = require("./routes/transaksi");
+const logRouter = require("./routes/logdata");
 
 const cors = require("cors");
 
@@ -36,5 +37,6 @@ app.use("/qc", qcRouter);
 app.use("/users", usersRouter);
 app.use("/customer", customerRouter);
 app.use("/transaksi", transaksiRouter);
+app.use("/log-data", logRouter);
 
 module.exports = app;

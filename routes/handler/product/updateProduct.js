@@ -33,6 +33,7 @@ module.exports = async (req, res) => {
   // Check produk exist
   const produk = await Produk.findOne({
     where: { slug: req.params.slug },
+    include: ["gambarProduk"],
   });
 
   // produk doesn't exist
@@ -90,12 +91,34 @@ module.exports = async (req, res) => {
       .status(404)
       .json([{ status: "error", message: "varian tidak ditemukan" }]);
   }
-
+  // jika diset siap jual
+  if (req.body.status === "SJ") {
+    // cek apakah deskripsi, dan harga sudah diatur apa belum
+    if (
+      produk.gambarProduk.length === 0 ||
+      req.body.deskripsi === "" ||
+      req.body.deskripsi === null ||
+      req.body.harga === "0"
+    ) {
+      childLogger.error(
+        `Gagal memperbarui produk dengan kode: ${produk.kodeproduk}, tidak memenuhi syarat produk siap jual`,
+        {
+          method: req.method,
+          url: req.originalUrl,
+        }
+      );
+      return res.status(400).json([
+        {
+          status: "error",
+          message:
+            "Tambahkan minimal satu gambar produk. Serta lengkapi deskripsi dan harga produk",
+        },
+      ]);
+    }
+  }
   // ambil data dari inputan dan disimpan pada kolom table Produk
   const data = {
     imei: req.body.imei,
-    // generate product code
-    kodeproduk: "PRD - " + uniqueCode(),
     slug: slug(
       isVarianValid.namavarian +
         " " +

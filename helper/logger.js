@@ -10,7 +10,10 @@ const logger = winston.createLogger({
     winston.format.json()
   ),
   transports: [
-    new winston.transports.File({ filename: "logs/application.log" }),
+    new winston.transports.File({
+      filename: "logs/application.log",
+      options: { flags: "w" },
+    }),
     new DailyRotateFile({
       dirname: "logs/backup",
       filename: "logs/backup/app-%DATE%.log",
@@ -18,12 +21,13 @@ const logger = winston.createLogger({
       zippedArchive: true,
       // max file size 1MB
       maxSize: "1m",
-      // berapa lama file akan disimpan "7 day"
+      // berapa lama file akan disimpan "3 day"
       maxFiles: "7d",
     }),
     new winston.transports.File({
       level: "error",
       filename: "logs/application-error.log",
+      options: { flags: "w" },
     }),
   ],
 });

@@ -4,3 +4,4 @@
 /public/product-image
 /routes/handler/refresh-tokens
 /logs
+/routes/handler/log/getAllLogOld.js

@@ -14,7 +14,14 @@ module.exports = async (req, res) => {
       {
         model: Produk,
         as: "produkQC",
-        attributes: ["id", "imei", "kodeproduk", "slug"],
+        attributes: [
+          "id",
+          "imei",
+          "kodeproduk",
+          "slug",
+          "statusproduk",
+          "active",
+        ],
         include: ["varianProduk"],
       },
       { model: Users, as: "qcBy", attributes: ["nama"] },
