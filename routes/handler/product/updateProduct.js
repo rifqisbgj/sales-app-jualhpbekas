@@ -115,6 +115,11 @@ module.exports = async (req, res) => {
         },
       ]);
     }
+    await produk.update({ release_date: new Date() });
+  }
+  // jika produk diset unrelease
+  if (req.body.status !== "SJ") {
+    await produk.update({ release_date: null });
   }
   // ambil data dari inputan dan disimpan pada kolom table Produk
   const data = {

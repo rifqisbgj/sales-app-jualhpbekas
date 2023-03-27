@@ -5,6 +5,6 @@ const logHandler = require("./handler/log");
 const verifyLogin = require("../middleware/verifyUser");
 const access = require("../middleware/permission");
 
-// // get all transaksi
+// // get all log
 router.get("/", verifyLogin, access("super"), logHandler.getListLog);
 module.exports = router;

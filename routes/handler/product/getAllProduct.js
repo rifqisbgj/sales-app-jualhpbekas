@@ -69,6 +69,7 @@ module.exports = async (req, res) => {
           attributes: ["namavarian", "id_merk"],
           // filter berdasarkan brand
           where: paramsQBrandFilter.where,
+          include: ["merk"],
         },
         { model: HasilQC, as: "qcProduct" },
       ],

@@ -62,7 +62,13 @@ module.exports = async (req, res) => {
           flag: "r",
         })
         .split("\n");
-      for (let i = 0; i < data.length - 1; i++) {
+      // mengurutkan dari data terbaru
+      data.reverse();
+      for (let i = 0; i < data.length; i++) {
+        // jika data kosong, maka lanjutkan ke berikutnya
+        if (data[i] === "") {
+          continue;
+        }
         // jika user melakukan filter by method only
         if (method !== "" && level === "") {
           if (JSON.parse(data[i]).method === method) {

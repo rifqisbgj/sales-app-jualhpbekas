@@ -49,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       updatedAt: { field: "updated_at", type: DataTypes.DATE, allowNull: true },
+      release_date: { type: DataTypes.DATE, allowNull: true },
     },
     { tableName: "produks" }
   );

@@ -22,6 +22,7 @@ module.exports = async (req, res) => {
         model: Varian,
         as: "varianProduk",
         attributes: ["namavarian", "id_merk"],
+        include: ["merk"],
       },
       {
         model: HasilQC,
@@ -30,7 +31,9 @@ module.exports = async (req, res) => {
         include: [{ model: Users, as: "qcBy", attributes: ["nama"] }],
       },
     ],
-    order: [[{ model: GambarProduk, as: "gambarProduk" }, "id", "ASC"]],
+    order: [
+      [{ model: GambarProduk, as: "gambarProduk", limit: 5 }, "id", "DESC"],
+    ],
   });
 
   // product doesn't exist
