@@ -14,6 +14,7 @@ const v = new Validator({
   },
 });
 module.exports = async (req, res) => {
+  console.log(req.body);
   const schema = {
     idCustomer: "uuid|version:1",
     detail: "array|empty:false",
@@ -41,14 +42,16 @@ module.exports = async (req, res) => {
   // generate invoice
   const d = new Date();
   const invoice = `${d.getFullYear()}${d.getDate()}${d.getHours()}${d.getMilliseconds()}${uniqueCode()}`;
-  console.log(invoice);
   // store customer input
   const data = {
     id: uuidv1(),
     id_customer: req.body.idCustomer,
     detail: req.body.detail,
     kode_invoice: invoice,
+    id_admin: req.user.data.id,
+    total: req.body.total,
   };
+  console.log(data);
 
   //   store to db
   const transaksi = await Transaksi.create(data);

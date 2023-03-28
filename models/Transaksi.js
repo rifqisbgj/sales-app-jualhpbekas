@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: false,
       },
+      id_admin: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      total: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       detail: { type: DataTypes.ARRAY(DataTypes.JSONB), allowNull: false },
       kode_invoice: { type: DataTypes.STRING, allowNull: false },
       createdAt: {
@@ -27,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
     Transaksi.belongsTo(models.Customer, {
       foreignKey: "id_customer",
       as: "transaksiCustomer",
+    });
+    Transaksi.belongsTo(models.Users, {
+      foreignKey: "id_admin",
+      as: "adminTransaksi",
     });
   };
 

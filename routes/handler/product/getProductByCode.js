@@ -1,8 +1,15 @@
 const { Op } = require("sequelize");
-const { Produk, GambarProduk, Varian, sequelize } = require("../../../models");
+const {
+  Produk,
+  GambarProduk,
+  Varian,
+  Merek,
+  sequelize,
+} = require("../../../models");
 
 module.exports = async (req, res) => {
   const produk = await Produk.findAll({
+    attributes: { exclude: ["createdAt", "updatedAt"] },
     where: {
       [Op.or]: [
         // get product by product code search
@@ -19,12 +26,20 @@ module.exports = async (req, res) => {
       statusproduk: "SJ",
     },
     include: [
-      { model: GambarProduk, as: "gambarProduk", limit: 1 },
+      {
+        model: GambarProduk,
+        as: "gambarProduk",
+        limit: 1,
+        attributes: ["id", "image"],
+      },
       {
         model: Varian,
         as: "varianProduk",
-        attributes: ["namavarian"],
+        attributes: ["id", "namavarian"],
         required: false,
+        include: [
+          { model: Merek, as: "merk", attributes: ["id", "namamerek"] },
+        ],
       },
     ],
   });
