@@ -2,11 +2,8 @@ const { Transaksi, Customer, Users } = require("../../../models");
 const moment = require("moment");
 const { Op } = require("sequelize");
 module.exports = async (req, res) => {
-  // defaul akan berisi tanggal sekarang
-  const dateTwo = req.query.dateTwo || moment().format("YYYY-MM-DD");
-  // default akan berisi 7 hari sebelum tanggal sekarang
-  const dateOne =
-    req.query.dateOne || moment().subtract(14, "d").format("YYYY-MM-DD");
+  const dateTwo = req.query.dateTwo || "";
+  const dateOne = req.query.dateOne || "";
   const page = parseInt(req.query.page) || 0;
   const limit = parseInt(req.query.limit) || 10;
   const offset = limit * page;
@@ -23,9 +20,11 @@ module.exports = async (req, res) => {
   // add query for get data from date range
   // as a default, the endDate will be set to time 00:00:00. Moment add 1 days to get 24H on end date
   let sqlFilter = {};
-  sqlFilter.createdAt = {
-    [Op.between]: [moment(dateOne), moment(dateTwo).add(1, "days")],
-  };
+  if (dateOne !== "" && dateTwo !== "") {
+    sqlFilter.createdAt = {
+      [Op.between]: [moment(dateOne), moment(dateTwo).add(1, "days")],
+    };
+  }
 
   //   get data transaksi
   let getByAdmin = {};

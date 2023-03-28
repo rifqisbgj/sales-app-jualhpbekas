@@ -34,7 +34,8 @@ module.exports = async (req, res) => {
     where: {
       [Op.or]: [
         // get product by product code search
-        { kodeproduk: { [Op.like]: "%" + search + "%" } },
+        { kodeproduk: { [Op.iLike]: "%" + search + "%" } },
+        { imei: { [Op.iLike]: "%" + search + "%" } },
         // get product by varian name search
         {
           varianproduk: sequelize.where(

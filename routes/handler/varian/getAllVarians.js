@@ -12,25 +12,15 @@ module.exports = async (req, res) => {
       [Op.or]: [
         {
           namavarian: {
-            [Op.like]: "%" + search + "%",
+            [Op.iLike]: "%" + search + "%",
           },
         },
       ],
     },
     include: [
-      {
-        model: Merek,
-        as: "merk",
-        where: {
-          [Op.or]: [
-            {
-              namamerek: {
-                [Op.like]: "%" + search + "%",
-              },
-            },
-          ],
-        },
-      },
+      { model: Merek, as: "merk" },
+      // get number of product
+      { model: Produk, as: "produk" },
     ],
   });
 
@@ -41,26 +31,14 @@ module.exports = async (req, res) => {
       [Op.or]: [
         {
           namavarian: {
-            [Op.like]: "%" + search + "%",
+            [Op.iLike]: "%" + search + "%",
           },
         },
       ],
     },
     include: [
       // get brand name
-      {
-        model: Merek,
-        as: "merk",
-        where: {
-          [Op.or]: [
-            {
-              namamerek: {
-                [Op.like]: "%" + search + "%",
-              },
-            },
-          ],
-        },
-      },
+      { model: Merek, as: "merk" },
       // get number of product
       { model: Produk, as: "produk" },
     ],
