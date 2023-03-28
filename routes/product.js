@@ -21,7 +21,9 @@ router.put(
 );
 // get list product
 router.get("/", productHandler.getAllProduct);
-router.get("/:kodeproduk", productHandler.getProductByCode);
+// get list product for admin
+router.get("/list", verifyLogin, productHandler.getProductAdmin);
+router.get("/find/:kodeproduk", productHandler.getProductByCode);
 // get detail product
 router.get("/detail/:slug", productHandler.detailProduct);
 // delete product

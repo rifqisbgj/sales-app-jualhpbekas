@@ -37,6 +37,15 @@ module.exports = async (req, res) => {
   const totalPage = Math.ceil(totalRows / limit);
   // get varian with brand and number of product
   const allData = await Varian.findAll({
+    where: {
+      [Op.or]: [
+        {
+          namavarian: {
+            [Op.like]: "%" + search + "%",
+          },
+        },
+      ],
+    },
     include: [
       // get brand name
       {

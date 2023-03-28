@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
   if (minPrice === "null" || typeof minPrice === "undefined") minPrice = 0;
   // jika maxPrice tidak diatur
   if (maxPrice === "null" || typeof maxPrice === "undefined")
-    maxPrice = 9999999;
+    maxPrice = 999999999;
 
   // menyimpan hasil pengambilan data produk dari db
   let result = [];
@@ -57,6 +57,7 @@ module.exports = async (req, res) => {
               { [Op.like]: "%" + search.toLowerCase() + "%" }
             ),
           },
+          { statusproduk: "SJ" },
         ],
       },
       attributes: { exclude: ["updatedAt", "deskripsi"] },
@@ -92,6 +93,7 @@ module.exports = async (req, res) => {
               { [Op.like]: "%" + search.toLowerCase() + "%" }
             ),
           },
+          { statusproduk: "SJ" },
         ],
       },
       limit: limit,

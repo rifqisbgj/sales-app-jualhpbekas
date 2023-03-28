@@ -17,7 +17,13 @@ module.exports = async (req, res) => {
   }
   // jika produk memiliki hasil QC maka tampilkan error conflict
   if (product.qcProduct) {
-    await product.update({ active: false });
+    // jika produk aktif, maka non-aktifkan
+    if (product.active) {
+      await product.update({ active: false });
+    } else {
+      // jika produk tidak aktif, maka aktifkan
+      await product.update({ active: true });
+    }
     childLogger.warn(
       `Produk dengan kode: ${product.kodeproduk} berhasil dinon-aktifkan`,
       {
