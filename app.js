@@ -15,6 +15,7 @@ const usersRouter = require("./routes/users");
 const customerRouter = require("./routes/customer");
 const transaksiRouter = require("./routes/transaksi");
 const logRouter = require("./routes/logdata");
+const dashboardRouter = require("./routes/dashboard");
 
 const cors = require("cors");
 
@@ -38,5 +39,6 @@ app.use("/users", usersRouter);
 app.use("/customer", customerRouter);
 app.use("/transaksi", transaksiRouter);
 app.use("/log-data", logRouter);
+app.use("/dashboard", dashboardRouter);
 
 module.exports = app;
